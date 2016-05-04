@@ -1,0 +1,12 @@
+# IDE
+.idea
+
+# Build files
+build
+dist
+*.egg*
+
+# Development deps
+ansible.cfg
+*.pyc
+TODO

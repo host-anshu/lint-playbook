@@ -4,9 +4,25 @@ A simple tool to check [ansible-playbooks](http://docs.ansible.com/ansible/playb
 logical consistencies. It uses [Simple Interceptor](https://github.com/host-anshu/simpleInterceptor) 
 to achieve this.
 
-## Current Status
+## Setup
 
-[WIP](https://github.com/host-anshu/simpleInterceptor/tree/master/example/lint_pbook)
+Using pip:
+
+    pip install LintPlaybook==0.1.dev1
+
+From Source:
+
+    git clone https://github.com/host-anshu/lint-playbook
+    cd lint-playbook
+    python setup.py install
+
+## Usage
+
+    lint-pbook <ansible-playbook options> ex_playbook.yml
+
+## Example
+
+![Linter Output](sample_data/output.jpg?raw=true "Linter Output")
 
 ## Roadmap
 

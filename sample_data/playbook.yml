@@ -1,0 +1,19 @@
+---
+- name: Playbook1 with undefined vars
+  hosts: ips
+  become: yes
+  become_method: sudo
+  vars_files:
+    - group_vars/ips
+  tasks:
+    - name: ensure libraries are latest version
+      apt: name={{ item }} state={{ state }}
+      with_items: "{{ libs }}"
+
+- name: Valid playbook
+  hosts: ips
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: ensure that postgresql is started
+      service: name=postgresql state=running

@@ -1,0 +1,4 @@
+include LICENSE
+global-include README.md
+include example/lint_pbook/*.yml
+graft sample_data

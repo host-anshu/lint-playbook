@@ -10,3 +10,4 @@ dist
 ansible.cfg
 *.pyc
 TODO
+*.retry

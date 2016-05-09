@@ -36,6 +36,7 @@ def queue_exc(*arg, **kw):  # pylint: disable=W0613
             _rslt_q = getattr(_locals['self'], '_rslt_q')
     if not _rslt_q:
         raise ValueError("No Queue found.")
+    # TODO: Handle cases where playbook execution doesn't reach here e.g unreachable hosts.
     # Add interceptor exception
     _rslt_q.put(arg[3].message, interceptor=True)
 
@@ -56,7 +57,11 @@ def extract_worker_exc(result):
             except ValueError:
                 # Ansible 2.0.2
                 _worker_prc, _rslt_q = _worker
-            _task = _worker_prc._task
+            try:
+                _task = _worker_prc._task
+            except AttributeError:
+                # No worker. Probably the task encountered error.
+                continue
             if _task.action == 'setup':
                 # Ignore setup
                 continue

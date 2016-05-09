@@ -37,6 +37,6 @@ setup(
     keywords='ansible ansible-playbook dry-run lint ansible-lint interceptor',
     packages=find_packages(),
     scripts=['bin/lint-pbook'],
-    # test_suite="test"
+    test_suite="test",
     install_requires=['SimpleInterceptor==0.1'],
 )

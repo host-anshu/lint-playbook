@@ -7,19 +7,22 @@ from functools import wraps
 
 
 def suppressConsoleOut(meth):
-    """Disable console output during the method is run."""
+    """Disable stdout and stderr during the method is run."""
     @wraps(meth)
-    def decorate(self, *args, **kwargs):
+    def decorate(*args, **kwargs):
         """Decorate"""
-        # Disable ansible console output
+        # Disable console output
         _stdout = sys.stdout
+        _stderr = sys.stderr
         fptr = open(os.devnull, 'w')
         sys.stdout = fptr
+        sys.stderr = fptr
         try:
-            return meth(self, *args, **kwargs)
+            return meth(*args, **kwargs)
         finally:
             # Enable console output
             sys.stdout = _stdout
+            sys.stderr = _stderr
     return decorate
 
 

@@ -8,6 +8,8 @@ from ansible.executor.process.worker import WorkerProcess  # pylint: disable=E06
 
 from Queue import Empty
 
+from linter.rules import LintRule
+
 # Interceptor internal method names to be skipped while backtracking through call stack.
 INTERCEPTOR_INTERNAL_METHODS = {'run_advices', 'trivial'}
 # Composite queue internal method names to be skipped for while backtracking through call stack.
@@ -70,13 +72,18 @@ def extract_worker_exc(result):
     return method
 
 
-class UndefinedVariable(object):
+class UndefinedVariable(LintRule):
     """Undefined variable rule.
 
     Whenever the AnsibleUndefinedVariable exception is generated while playbook runs, the
     exception is queued in the composite queue pertaining to interceptor. And after all of the
     workers are run, they are extracted and stored in the data store.
     """
+    id = 1
+    code = "undefined_var"
+    short_desc = "Checks if tasks in playbook have undefined vars"
+    tags = "Incorrect"
+
     def __init__(self, errors):
         """Initialise data store"""
         self.errors = errors

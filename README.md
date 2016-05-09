@@ -1,7 +1,9 @@
 # Lint Playbook
 
-A simple tool to check [ansible-playbooks](http://docs.ansible.com/ansible/playbooks.html) for 
-logical consistencies. It uses [Simple Interceptor](https://github.com/host-anshu/simpleInterceptor) 
+A simple tool<sup id="lint-pbook">[1](#ansible-lint)</sup> to check 
+<a target="_blank" href="http://docs.ansible.com/ansible/playbooks.html">ansible-playbooks</a> for 
+logical consistencies. It uses 
+<a target="_blank" href="https://github.com/host-anshu/simpleInterceptor">Simple Interceptor</a> 
 to achieve this.
 
 ## Setup
@@ -26,4 +28,10 @@ From Source:
 
 ## Roadmap
 
-Implement all of the rules [here](https://github.com/host-anshu/ansible-lint-rules/tree/master/rules).
+Implement all of the rules 
+<a target="_blank" href="https://github.com/host-anshu/ansible-lint-rules/tree/master/rules">here</a>
+
+___
+
+1. Loosely inspired by 
+<a id="ansible-lint" target="_blank" href="https://github.com/willthames/ansible-lint">ansible-lint</a>

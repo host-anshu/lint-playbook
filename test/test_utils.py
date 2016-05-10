@@ -3,9 +3,8 @@
 import sys
 import unittest
 
-from StringIO import StringIO
-
 from linter.utils import isLTS, suppressConsoleOut
+from test import CaptureConsoleOut
 
 
 class IsLTSTest(unittest.TestCase):
@@ -35,19 +34,6 @@ class DemonstrateConsoleOutSuppression(object):
     def stderr_write():
         """Write to stderr"""
         sys.stderr.write("I write to stderr")
-
-
-class CaptureConsoleOut(unittest.TestCase):
-    """Capture print by reassigning sys.stdout for the duration of the test"""
-    def setUp(self):
-        self.saved_stdout = sys.stdout
-        sys.stdout = StringIO()
-        self.saved_stderr = sys.stderr
-        sys.stderr = StringIO()
-
-    def tearDown(self):
-        sys.stdout = self.saved_stdout
-        sys.stderr = self.saved_stderr
 
 
 class SuppressConsoleOutTest(CaptureConsoleOut):

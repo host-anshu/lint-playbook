@@ -48,10 +48,9 @@ class Runner(object):
         """Output formatting for errors, if there are."""
         if not self.errors:
             print "Valid Playbook"
-            return 0
+            return
         for task, errors in self.errors.items():
             print 'Task: {1}{0}{2}{0}'.format('\n', task, '\n'.join(errors))
-        return 1
 
     def run(self):
         """Method to invoke playbook and apply linters."""

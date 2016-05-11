@@ -51,6 +51,9 @@ class Runner(object):
             print "Valid Playbook"
             return
         for task, errors in self.errors.items():
+            if task == "unused_vars":
+                print 'Unused vars:{0}{1}{0}'.format('\n', ', '.join(errors))
+                continue
             print 'Task: {1}{0}{2}{0}'.format('\n', task, '\n'.join(errors))
             if task == "setup":
                 print "Couldn't lint the above hosts as their setup failed. Fix and re-lint\n"

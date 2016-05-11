@@ -37,8 +37,6 @@ def queue_exc(*arg, **kw):  # pylint: disable=W0613
             _rslt_q = getattr(_locals['self'], '_rslt_q')
     if not _rslt_q:
         raise ValueError("No Queue found.")
-    # TODO: Handle cases where playbook execution doesn't reach here e.g unreachable hosts.
-    # Add interceptor exception
     _rslt_q.put(arg[3].message, interceptor=True)
 
 
@@ -70,6 +68,9 @@ def extract_worker_exc(errors):
             while True:
                 try:
                     _exc = _rslt_q.get(block=False, interceptor=True)
+                    if "unused_vars" in _exc:
+                        errors["unused_vars"] = errors["unused_vars"].union(_exc["unused_vars"])
+                        continue
                     errors[_task.name].add(_exc)
                 except Empty:
                     break

@@ -15,6 +15,7 @@ class RunnerTest(CaptureConsoleOut):
         # Introducing error
         obj.errors['A task'] = {"Error A", "Error B"}
         obj.errors['setup'] = {"Setup error A", "Setup error B"}
+        obj.errors['unused_vars'] = {"Host var", "Group var"}
         obj.format_errors()
         expected_out = "\n".join((
             "Task: setup",
@@ -22,6 +23,9 @@ class RunnerTest(CaptureConsoleOut):
             "Setup error B",
             "",
             "Couldn't lint the above hosts as their setup failed. Fix and re-lint",
+            "",
+            "Unused vars:",
+            "Host var, Group var",
             "",
             "Task: A task",
             "Error A",

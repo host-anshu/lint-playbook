@@ -14,8 +14,18 @@ class RunnerTest(CaptureConsoleOut):
         obj = Runner([], [])
         # Introducing error
         obj.errors['A task'] = {"Error A", "Error B"}
+        obj.errors['setup'] = {"Setup error A", "Setup error B"}
         obj.format_errors()
-        expected_out = "\n".join(("Task: A task", "Error A", "Error B"))
+        expected_out = "\n".join((
+            "Task: setup",
+            "Setup error A",
+            "Setup error B",
+            "",
+            "Couldn't lint the above hosts as their setup failed. Fix and re-lint",
+            "",
+            "Task: A task",
+            "Error A",
+            "Error B"))
         self.assertEqual(sys.stdout.getvalue().strip(), expected_out)
 
     def test_formatting_no_error(self):

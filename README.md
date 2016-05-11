@@ -14,13 +14,22 @@ From Source:
 
     git clone https://github.com/host-anshu/lint-playbook
     cd lint-playbook
+    # either
     python setup.py install
+    # or, to install in development mode
+    python setup.py develop
 
 ## Usage
 
     lint-pbook <ansible-playbook options> ex_playbook.yml
 
 ## Example
+
+For cases when it encounters setup failures:
+
+![Setup Failure](sample_data/setup_failure.jpg?raw=true "Setup Failure")
+
+Otherwise
 
 ![Linter Output](sample_data/output.jpg?raw=true "Linter Output")
 

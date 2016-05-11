@@ -19,6 +19,7 @@ class Runner(object):
         """Initialise runner with playbook args, rules to be run and the error data store"""
         self.ansible_pbook_args = ansible_pbook_args
         self.rules = rules
+        # TODO: Make it ordered dict.
         self.errors = defaultdict(set)
 
     def apply_rules(self):
@@ -51,6 +52,8 @@ class Runner(object):
             return
         for task, errors in self.errors.items():
             print 'Task: {1}{0}{2}{0}'.format('\n', task, '\n'.join(errors))
+            if task == "setup":
+                print "Couldn't lint the above hosts as their setup failed. Fix and re-lint\n"
 
     def run(self):
         """Method to invoke playbook and apply linters."""

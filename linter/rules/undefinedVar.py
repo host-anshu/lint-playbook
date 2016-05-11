@@ -4,6 +4,7 @@ import inspect
 
 from ansible.errors import AnsibleUndefinedVariable
 from ansible.plugins.strategy import StrategyBase  # pylint: disable=E0611,F0401
+from ansible.executor.task_queue_manager import TaskQueueManager  # pylint: disable=E0611,F0401
 from ansible.executor.process.worker import WorkerProcess  # pylint: disable=E0611,F0401
 
 from Queue import Empty
@@ -41,7 +42,7 @@ def queue_exc(*arg, **kw):  # pylint: disable=W0613
     _rslt_q.put(arg[3].message, interceptor=True)
 
 
-def extract_worker_exc(result):
+def extract_worker_exc(errors):
     """Get the exceptions added by the workers"""
     def method(*arg, **kw):  # pylint: disable=W0613
         """Reference the advice and run with the data store"""
@@ -69,9 +70,28 @@ def extract_worker_exc(result):
             while True:
                 try:
                     _exc = _rslt_q.get(block=False, interceptor=True)
-                    result[_task.name].add(_exc)
+                    errors[_task.name].add(_exc)
                 except Empty:
                     break
+    return method
+
+
+def extract_setup_failures(errors):
+    """Extract failures that occur while setup"""
+    def method(*arg, **kw):  # pylint: disable=W0613
+        """Reference to advice"""
+        try:
+            result = arg[4]
+        except IndexError:
+            return
+        try:
+            _host, _task, _result = result._host, result._task, result._result
+        except AttributeError:
+            return
+        if _task.action == "setup":
+            for state in ("failed", "unreachable"):
+                if state in _result:
+                    errors["setup"].add("Host %s: %s: %s" % (_host.name, state, _result["msg"]))
     return method
 
 
@@ -95,7 +115,10 @@ class UndefinedVariable(object):
                     around_after=queue_exc
                 )},
             StrategyBase: {
-                r'run': dict(
+                r'\brun\b': dict(
                     before=extract_worker_exc(self.errors)  # bind data store
-                )}
+                )},
+            TaskQueueManager: {
+                r'\bsend_callback\b': dict(before=extract_setup_failures(self.errors))
+            }
         }

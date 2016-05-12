@@ -2,3 +2,9 @@
 unused: "Unused"
 # state: "latest"
 # libs: ["apache2", "postgresql"]
+_same: "Same"
+Same: "Same"
+sa-me: "Same"
+sa_me: "Same"
+package:
+    same: "Same"

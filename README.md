@@ -43,3 +43,4 @@ Rules that have been implemented(alpha stage) are:
 
 1. [Undefined variable](https://github.com/host-anshu/ansible-lint-rules/blob/master/rules/specs/undefined_vars.feature)
 2. [Unused variable](https://github.com/host-anshu/ansible-lint-rules/blob/master/rules/specs/unused_vars.feature)
+3. [Conflicting variable](https://github.com/host-anshu/ansible-lint-rules/blob/master/rules/specs/conflicting_vars.feature)

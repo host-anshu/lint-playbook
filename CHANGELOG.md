@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 ### [Unreleased]
 
 #### Added
+- Rule to lint for [conflicting variables]
+(https://github.com/host-anshu/ansible-lint-rules/blob/master/rules/specs/conflicting_vars.feature).
 - Rule to lint for [unused variables]
 (https://github.com/host-anshu/ansible-lint-rules/blob/master/rules/specs/unused_vars.feature).
 - Suppressing stderr output as well.

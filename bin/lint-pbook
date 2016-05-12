@@ -6,11 +6,12 @@ import sys
 
 from linter.rules.undefinedVar import UndefinedVariable
 from linter.rules.unusedVar import UnusedVariable
+from linter.rules.conflictingVars import ConflictingVar
 from linter.runner import Runner
 
 
 def main():
-    obj = Runner(sys.argv, (UndefinedVariable, UnusedVariable))
+    obj = Runner(sys.argv, (ConflictingVar, UndefinedVariable, UnusedVariable))
     obj.run()
 
 

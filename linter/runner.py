@@ -18,7 +18,7 @@ class Runner(object):
     def __init__(self, ansible_pbook_args, rules):
         """Initialise runner with playbook args, rules to be run and the error data store"""
         self.ansible_pbook_args = ansible_pbook_args
-        self.rules = rules
+        self.rules = isLTS(rules) and rules or [rules]
         # TODO: Make it ordered dict.
         self.errors = defaultdict(set)
 
@@ -51,8 +51,12 @@ class Runner(object):
             print "Valid Playbook"
             return
         for task, errors in self.errors.items():
+            # TODO: Hosts or groups as relevant in the error messages.
             if task == "unused_vars":
                 print 'Unused vars:{0}{1}{0}'.format('\n', ', '.join(errors))
+                continue
+            elif task == "conflicting_vars":
+                print 'Conflicting vars:{0}{1}{0}'.format('\n', '\n'.join(errors))
                 continue
             print 'Task: {1}{0}{2}{0}'.format('\n', task, '\n'.join(errors))
             if task == "setup":

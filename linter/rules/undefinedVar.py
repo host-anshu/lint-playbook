@@ -37,7 +37,7 @@ def queue_exc(*arg, **kw):  # pylint: disable=W0613
             _rslt_q = getattr(_locals['self'], '_rslt_q')
     if not _rslt_q:
         raise ValueError("No Queue found.")
-    _rslt_q.put(arg[3].message, interceptor=True)
+    _rslt_q.put({"undefined_var": arg[3].message}, interceptor=True)
 
 
 def extract_worker_exc(errors):
@@ -70,8 +70,11 @@ def extract_worker_exc(errors):
                     _exc = _rslt_q.get(block=False, interceptor=True)
                     if "unused_vars" in _exc:
                         errors["unused_vars"] = errors["unused_vars"].union(_exc["unused_vars"])
-                        continue
-                    errors[_task.name].add(_exc)
+                    elif "conflicting_vars" in _exc:
+                        errors["conflicting_vars"] = \
+                            errors["conflicting_vars"].union(_exc["conflicting_vars"])
+                    elif "undefined_var" in _exc:
+                        errors[_task.name].add(_exc["undefined_var"])
                 except Empty:
                     break
     return method

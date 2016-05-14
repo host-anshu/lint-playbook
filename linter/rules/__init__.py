@@ -6,7 +6,7 @@ import re
 from abc import ABCMeta, abstractproperty
 from collections import defaultdict
 
-from linter.utils import isLTS
+from linter.utils import isListTupleSet
 
 
 class RulesCollection(object):
@@ -85,7 +85,7 @@ class RulesCollection(object):
     def create_from_directory(self, rules_dirs):
         if isinstance(rules_dirs, basestring):
             rules_dirs = [rules_dirs]
-        elif not isLTS(rules_dirs):
+        elif not isListTupleSet(rules_dirs):
             raise ValueError(
                 "Expected a list of directories containing rules. Got: %s" % type(rules_dirs))
 
@@ -120,7 +120,7 @@ class LintRule(object):
         @property
         def valid_tags(cls):
             """Tags must be a list or tuple or set of keywords"""
-            if not isLTS(cls.tags):
+            if not isListTupleSet(cls.tags):
                 raise TypeError(LintRule.valid_tags.__doc__)
             return cls.tags
 

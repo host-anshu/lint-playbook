@@ -11,7 +11,7 @@ from os.path import dirname, isdir, relpath
 
 from linter import rules as R
 from linter.version import __version__
-from linter.utils import isLTS
+from linter.utils import isListTupleSet
 from linter.utils.composite_queue import CompositeQueue
 
 # Override multiprocess Queue to accommodate interceptor's queue.
@@ -128,7 +128,7 @@ class Runner(object):
         for rule in self.rules:
             rule_obj = rule(self.errors)
             for target_classes, aspects in rule_obj.aspects.iteritems():
-                if not isLTS(target_classes):
+                if not isListTupleSet(target_classes):
                     target_classes = [target_classes]
                 for _class in target_classes:
                     intercept(aspects)(_class)
